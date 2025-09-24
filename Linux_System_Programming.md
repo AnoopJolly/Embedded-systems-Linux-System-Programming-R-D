@@ -1,6 +1,6 @@
 ## FILE MANAGEMENT
 ## 1. Write a C program to create a new text file and write "Hello, World!" to it?
-``c
+```c
 #include<stdio.h>
 #include<fcntl.h>
 #include<string.h>
@@ -29,8 +29,9 @@ int main()
         close(fd);
         return 0;
 }
+```
 ## 2. Develop a C program to open an existing text file and display its contents?
-``c
+```c
 #include<stdio.h>
 #include<fcntl.h>
 #include<string.h>
@@ -61,8 +62,9 @@ int main()
         close(fd);
         return 0;
 }
+```
 ## 3. 3Implement a C program to create a new directory named "Test" in the current directory?
-``c
+```c
 #include<stdio.h>
 #include<sys/stat.h>
 int main()
@@ -82,8 +84,9 @@ int main()
         }
         return 0;
 }
+```
 ## 4. Write a C program to check if a file named "sample.txt" exists in the current directory?
-``c
+```c
 #include<stdio.h>
 #include<string.h>
 #include<fcntl.h>
@@ -106,8 +109,9 @@ int main()
         }
         return 0;
 }
+```
 ### 5. Develop a C program to rename a file from "oldname.txt" to "newname.txt"?
-``c
+```c
 #include <stdio.h>
 #include<string.h>
 int main() {
@@ -130,3 +134,4 @@ int main() {
     return 0;
 }
 
+```
