@@ -71,7 +71,7 @@ int main()
 {
         int status;
         char foldername[100];
-        printf("Enter file name :");
+        printf("Enter folder name :");
         scanf("%s",foldername);
         status=mkdir(foldername,0777);
         if(status==0)
@@ -155,3 +155,66 @@ int main() {
 }
 ```
 ## 7. Write a C program to copy the contents of one file to another?
+```c
+#include<stdio.h>
+#include<stdio.h>
+#include<fcntl.h>
+#include<unistd.h>
+int main()
+{
+        char filename[100];
+        char filename2[100];
+        char content[1000];
+        printf("Enter source filename :");
+        scanf("%s",filename);
+        printf("Enter destination filename :");
+        scanf("%s",filename2);
+
+        int fd,fd2;
+        fd=open(filename,O_RDONLY,0666);
+        if(fd==-1)
+        {
+                printf("ERROR file 1 doesnot exist");
+                return 1;
+        }
+        fd2=open(filename2,O_WRONLY|O_CREAT,0666);
+        if(fd2==-1)
+        {
+                printf("ERROR file 2 doesnot exist");
+                close(fd);
+                return 1;
+        }
+        while((read(fd,content,5))!=0)
+        {
+                write(fd2,content,5);
+        }
+        close(fd);
+        close(fd2);
+        printf("Succesfull\n");
+        return 0;
+}
+```
+## 8. Develop a C program to move a file from one directory to another?
+```c
+#include<stdio.h>
+int main()
+{
+        char source[256];
+        char destination[256];
+        printf("Enter the source path followed by filename");
+        scanf("%255s",source);
+        printf("Enter the destination path to move the file into");
+        scanf("%255s",destination);
+
+        if(rename(source,destination)==0)
+        {
+                printf("file moved succesfully from %s to %s\n",source,destination);
+        }
+        else
+        {
+                printf("ERROR unsuccesfull");
+        }
+        return 0;
+}
+
+
