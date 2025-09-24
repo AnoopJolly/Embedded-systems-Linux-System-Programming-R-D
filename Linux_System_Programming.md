@@ -135,3 +135,23 @@ int main() {
 }
 
 ```
+## 6. Implement a C program to delete a file named "delete_me.txt"?
+...c
+#include <stdio.h>
+#include<string.h>
+int main() {
+    int result;
+    char filename[100];
+    printf("Enter the file name to remove:" );
+    scanf("%s",filename);
+    result = remove(filename);
+    if (result == 0) {
+        printf("File removed successfully.\n");
+    } else {
+        perror("Error removing file");
+    }
+
+    return 0;
+}
+```
+## 7. Write a C program to copy the contents of one file to another?
