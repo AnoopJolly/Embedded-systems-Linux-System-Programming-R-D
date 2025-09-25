@@ -369,5 +369,37 @@ int main()
         return 0;
 }
 ```
+## 16. Write a C program to append "Goodbye!" to the end of an existing file named
+"message.txt"?
+```c
+#include<stdio.h>
+#include<stdlib.h>
+#include<fcntl.h>
+#include<string.h>
+#include<unistd.h>
+int main()
+{
+        int fd;
+        char filename[100];
+        char content[100];
+        printf("Enter the file name");
+        scanf("%s",filename);
+        getchar();
+        fd=open(filename,O_WRONLY|O_APPEND,0777);
+        if(fd==-1)
+        {
+                printf("ERROR file doesnot exist");
+        }
+        printf("Enter the content");
+        fgets(content,sizeof(content),stdin);
+        content[strcspn(content,"\n")]='\0';
+
+        write(fd,content,strlen(content));
+        close(fd);
+        printf("Successfull");
+        return 0;
+}
+```
+
 
 
