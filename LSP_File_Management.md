@@ -216,5 +216,109 @@ int main()
         }
         return 0;
 }
+```
+## 9. Implement a C program to list all files in the current directory?
+```c
+#include<stdio.h>
+#include<unistd.h>
+int main()
+{
+          execlp("ls","ls",NULL,NULL);
+          return 0;
+}
+```
+## 10. Write a C program to get the size of a file named "file.txt"?
+```c
+#include<stdio.h>
+
+int main()
+{
+        FILE *fp;
+        char filename[100];
+        long size;
+        printf("enter the file name: ");
+        scanf("%s",filename);
+        fp = fopen(filename,"r");
+        if(fp==NULL)
+        {
+                printf("ERROR file doesnot exist\n");
+                return 1;
+        }
+
+        fseek(fp,0,SEEK_END);
+        size=ftell(fp);
+        fclose(fp);
+        printf("Size of file %s is %ld bytes\n",filename,size);
+        return 0;
+}
+
+```
+```c
+#include<stdio.h>
+#include<sys/stat.h>
+int main()
+{
+        struct stat st;
+
+        if(stat("apple.txt",&st)==0)
+        {
+                printf("File found\n");
+                printf("The size of the file apple.txt is %ld bytes",st.st_size);
+        }
+        else
+        {
+                printf("ERROR stat file not found\n");
+                return 1;
+        }
+        return 0;
+}
+```
+## 11. Develop a C program to check if a directory named "Test" exists in the current directory?
+```c
+#include<stdio.h>
+#include<sys/stat.h>
+int main()
+{
+        struct stat st;
+
+        if((stat("test",&st))==0)
+        {
+                if(S_ISDIR(st.st_mode))
+                {
+                        printf("file: test\n File exist");
+                }
+                else
+                {
+                        printf("test exist but not a direcctory\n");
+                }
+        }
+        else
+        {
+                printf("Does not exist\n");
+        }
+        return 0;
+}
+```
+## 12. Implement a C program to create a new directory named "Backup" in the parent directory?
+```c
+#include<stdio.h>
+#include<sys/stat.h>
+int main()
+{
+
+        if((mkdir("Backup",0777))==0)
+        {
+
+                printf("Directory created succesfully\n");
+        }
+        else
+        {
+                printf("ERROR creating file");
+        }
+
+        return 0;
+}
+```
+
 
 
