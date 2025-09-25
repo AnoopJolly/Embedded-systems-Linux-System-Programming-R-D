@@ -319,6 +319,55 @@ int main()
         return 0;
 }
 ```
+## 14. Develop a C program to delete all files in a directory named "Temp"?
+```c
+#include <stdio.h>
+#include <stdlib.h>
 
+int main() {
+    // Use system() to run a shell command that deletes all files in Temp/
+    int result = system("rm -f Temp/*");
+
+    if (result == 0) {
+        printf("All files in 'Temp' deleted successfully.\n");
+    } else {
+        printf("Failed to delete files in 'Temp'.\n");
+    }
+
+    return 0;
+}
+```
+## 15. Implement a C program to count the number of lines in a file named "data.txt"?
+```c
+#include<stdio.h>
+#include<stdlib.h>
+#include<unistd.h>
+#include<string.h>
+#include<fcntl.h>
+int main()
+{
+        int fd;
+        char filename[100];
+        char content;
+        int count=0;
+        printf("Enter the file namee\n");
+        scanf("%s",filename);
+        fd=open(filename,O_RDONLY,0777);
+        if(fd==-1)
+        {
+                printf("Error file does not exist");
+                return 1;
+        }
+        while((read(fd,&content,1))!=0)
+        {
+                if(content=='\n')
+                {
+                        count++;
+                }
+        }
+        printf("Nuymber of lines in the file is %d ",count);
+        return 0;
+}
+```
 
 
