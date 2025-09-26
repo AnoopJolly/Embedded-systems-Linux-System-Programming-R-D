@@ -400,6 +400,74 @@ int main()
         return 0;
 }
 ```
+## 17. Implement a C program to change the permissions of a file named "file.txt" to read only?
+
+```c
+#include<stdio.h>
+#include<sys/stat.h>
+int main()
+{
+        struct stat st;
+        char filename[100];
+        int per;
+        printf("Enter the file name \t:");
+        scanf("%s",filename);
+        if(stat(filename,&st)==-1)
+        {
+                printf("stat failed\n");
+                return 1;
+        }
+
+
+        printf("file mode is \t:%o\n",st.st_mode & 0777);
+        printf("Enter the new permission\t:");
+        scanf("%o",&per);;
+        if(chmod(filename,per)==-1)
+        {
+                printf("ERROR failed to change permission");
+                return 1;
+        }
+        printf("Permission for the %s changed to %o  ",filename,per);
+        return 0;
+}
+```
+## 18. Write a C program to change the ownership of a file named "file.txt" to the user "user1"?
+```c
+#include <stdio.h>
+#include <stdlib.h>
+#include <unistd.h>
+#include <sys/types.h>
+#include <pwd.h>
+#include <grp.h>
+#include <sys/stat.h>
+
+int main() {
+    const char *filename = "file.txt";
+    const char *new_owner = "user1";
+
+
+    struct passwd *pwd = getpwnam(new_owner);
+    if (pwd == NULL) {
+        perror("getpwnam");
+        fprintf(stderr, "User '%s' not found\n", new_owner);
+        return 1;
+    }
+
+    uid_t uid = pwd->pw_uid;
+    gid_t gid = pwd->pw_gid;
+
+
+    if (chown(filename, uid, gid) == -1) {
+        perror("chown");
+        return 1;
+    }
+
+    printf("Ownership of '%s' changed to user '%s' (UID=%d, GID=%d)\n", filename, new_owner, uid, gid);
+    return 0;
+}
+```
+
+
 
 
 
