@@ -466,6 +466,63 @@ int main() {
     return 0;
 }
 ```
+## 19. Develop a C program to get the last modified timestamp of a file named "file.txt"?
+```c
+#include<stdio.h>
+#include<sys/stat.h>
+#include<time.h>
+int main()
+{
+        struct stat st;
+        char filename[100];
+        printf("Enter the file name\t: ");
+        scanf("%s",filename);
+
+        if((stat(filename,&st))==-1)
+        {
+                perror("STAT ERROR");
+                return 1;
+        }
+        else
+        {
+                printf ("last modified time is  : %s",ctime(&st.st_mtime));
+        }
+        return 0;
+}
+```
+## 20. Implement a C program to create a temporary file and write some data to it?
+```c
+#include <stdio.h>
+#include <unistd.h>
+#include <string.h>
+
+int main() {
+
+        char content[100];
+        FILE *tmp =tmpfile();   // creates a temporary file (deleted on close)
+        if(tmp == NULL)
+        {
+                perror("tmpfile");
+                return 1;
+        }
+        // Write some dataa
+
+        printf("Enter the data\t:");
+        fgets(content,sizeof(content),stdin);
+        content[strcspn(content,"\n")]='\0';
+
+        fputs(content,tmp);
+
+        //Rewind and read back
+
+//      rewind(tmp);
+        fgets(content,sizeof(content),tmp);
+        printf("Read from the file: %s",content);
+        fclose(tmp);
+
+        return 0;
+}
+
 
 
 
