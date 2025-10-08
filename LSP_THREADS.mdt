@@ -133,5 +133,49 @@ int main()
 }
 ```
 ## 6.Develop a C program to create a thread that prints the sum of two numbers?
+```c
+#include<stdio.h>
+#include<pthread.h>
+
+struct input_data
+{
+        int id;
+        int a;
+        int b;
+};
+
+void *sum(void *arg)
+{
+        struct input_data *data=(struct input_data*)arg;
+        int result=data->a+data->b;
+        printf("id is %d, The sum of %d and %d is %d\n",data->id,data->a,data->b,result);
+        return NULL;
+}
+
+int main()
+{
+        pthread_t t1,t2;
+        struct input_data data1,data2;
+        data1.id=1;
+        printf("Thread 1 - Enter value 1: ");
+        scanf("%d",&data1.a);
+        printf("thread 1 - Enter value 2: ");
+        scanf("%d",&data1.b);
+
+        data2.id=2;
+        printf("Thread 2 - Enter value 1: ");
+        scanf("%d",&data2.a);
+        printf("thread 2 - Enter value 2: ");
+        scanf("%d",&data2.b);
+
+        pthread_create(&t1,NULL,sum,&data1);
+        pthread_create(&t2,NULL,sum,&data2);
+        pthread_join(t1,NULL);
+        pthread_join(t2,NULL);
+
+        return 0;
+}
+```
+
 
 
