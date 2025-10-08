@@ -176,6 +176,93 @@ int main()
         return 0;
 }
 ```
+## 7.Implement a C program to create a thread that calculates the square of a number?
+```c
+#include<stdio.h>
+#include<pthread.h>
 
+void *square(void *arg)
+{
+        int n=*(int*)arg;
+        int sqr=1;
+        sqr=n*n;
+        printf("Square of %d is %d\n",n,sqr);
+}
+
+int main()
+{
+        pthread_t t1;
+        int value=5;
+        if((pthread_create(&t1,NULL,square,&value))!=0)
+        {
+                perror("Thread creation failed");
+                return 1;
+        }
+        pthread_join(t1,NULL);
+        return 0;
+}
+```
+## 8.Write a C program to create a thread that prints the current date and time?
+```c
+#include<stdio.h>
+#include<pthread.h>
+#include<time.h>
+void *datetime (void *arg)
+{
+        time_t now=time(NULL);
+        printf("Current Date and Time: %s",ctime(&now));
+        return NULL;
+}
+int main()
+{
+        pthread_t t;
+        pthread_create(&t,NULL,datetime,NULL);
+        pthread_join(t,NULL);
+        return 0;
+}
+```
+## 9.Develop a C program to create a thread that checks if a number is prime?
+```c
+#include<stdio.h>
+#include<pthread.h>
+void *prime(void *arg)
+{
+        int n=*(int*)arg;
+        int flag=1;
+        if(n==1)
+        {
+                printf("Not prime\n");
+                return NULL;
+        }
+        for(int i=2;i<=n/2;i++)
+        {
+                if(n%i==0)
+                {
+                        flag=0;
+                        break;
+                }
+        }
+        if(flag==1)
+        {
+                printf("Prime number\n");
+        }
+        else
+        {
+                printf("Not a prime number\n");
+        }
+        return NULL;
+}
+int main()
+{
+        pthread_t t1;
+        int val;
+        printf("Enter the number\n");
+        scanf("%d",&val);
+        pthread_create(&t1,NULL,prime,&val);
+        pthread_join(t1,NULL);
+
+        return 0;
+}
+```
 
 
