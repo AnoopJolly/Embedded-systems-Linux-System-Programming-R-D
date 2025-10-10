@@ -264,5 +264,99 @@ int main()
         return 0;
 }
 ```
+## 10.Implement a C program to create a thread that checks if a given string is a palindrome?
+```c
+#include<stdio.h>
+#include<string.h>
+#include<pthread.h>
+void *palindrome(void *arg)
+{
+        char arr[100];
+        strcpy(arr,(char*)arg);
+        int n=strlen(arr);
+        int j=0;
+        int flag=1;
+        for(int i=0;i<n/2;i++)
+        {
+
+                if(arr[i]!=arr[n-i-1])
+                {
+                        flag=0;
+                        break;
+                }
+
+        }
+        if(flag==1)
+                printf("palindrome\n");
+        else
+                printf("not palindrome\n");
+
+}
+
+int main()
+{
+        pthread_t t1;
+        char str[]="malayalam";
+        pthread_create(&t1,NULL,palindrome,str);
+        pthread_join(t1,NULL);
+
+        return 0;
+}
+```
+## 11.Write a C program to create a thread that prints "Hello, World!" with thread synchronization?
+```c
+#include<stdio.h>
+#include<pthread.h>
+
+pthread_mutex_t mtx;
+void *print(void *arg)
+{
+        pthread_mutex_lock(&mtx);
+
+        printf("Hellow world\n");
+
+        pthread_mutex_unlock(&mtx);
+
+}
+
+void main()
+{
+        pthread_t t1,t2;
+        pthread_create(&t1,NULL,print,NULL);
+        pthread_create(&t2,NULL,print,NULL);
+
+
+        pthread_join(t1,NULL);
+        pthread_join(t2,NULL);
+
+}
+```
+## 12.Develop a C program to create two threads that print their thread IDs and synchronize their output?
+```c
+#include<stdio.h>
+#include<pthread.h>
+
+pthread_mutex_t mtx;
+
+void *printid(void *arg)
+{
+        int id=*(int*)arg;
+        pthread_mutex_lock(&mtx);
+        printf("the Thread id is : ' %d '\n",id);
+        pthread_mutex_unlock(&mtx);
+}
+void main()
+{
+        pthread_t t1,t2;
+        int id[]={101,102};
+        pthread_create(&t1,NULL,printid,&id[0]);
+        pthread_create(&t2,NULL,printid,&id[1]);
+
+        pthread_join(t1,NULL);
+        pthread_join(t2,NULL);
+}
+```
+## 13
+```
 
 
