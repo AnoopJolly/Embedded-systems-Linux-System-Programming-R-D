@@ -356,7 +356,50 @@ void main()
         pthread_join(t2,NULL);
 }
 ```
-## 13
+## 13 13.Implement a C program to create a thread that generates random numbers and synchronizes access to a shared buffer?
+```c
+#include <stdio.h>
+#include <string.h>
+#include <pthread.h>
+#include <stdlib.h>
+#include <unistd.h>
+int buffer;
+pthread_mutex_t mtx;
+
+void *randomnum(void *arg)
+{
+        for(int i=0;i<5;i++)
+        {
+                int num=rand()%100;
+
+                pthread_mutex_lock(&mtx);
+                buffer =num;
+                printf("Thread Generated  number %d\n",buffer);
+                pthread_mutex_unlock(&mtx);
+
+                sleep(1);
+        }
+        return NULL;
+}
+
+void main()
+{
+        pthread_t t1;
+        srand(time(NULL));
+        pthread_create(&t1,NULL,randomnum,NULL);
+        for(int i=0;i<5;i++)
+        {
+                sleep(1);
+                pthread_mutex_lock(&mtx);
+                printf("main : Read number %d\n",buffer);
+                pthread_mutex_unlock(&mtx);
+        }
+
+        pthread_join(t1,NULL);
+}
+```
+
+
 ```
 
 
