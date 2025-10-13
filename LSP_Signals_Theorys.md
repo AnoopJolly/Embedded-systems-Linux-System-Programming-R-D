@@ -103,14 +103,6 @@ int main() {
 - This ensures user-space signal handlers do not run inside kernel context.
 
 ---
-
-## 10. Describe the behavior of a process when it receives a SIGSEGV signal?
-
-- `SIGSEGV` indicates a **segmentation fault** (illegal memory access).
-- By default, the process **terminates and produces a core dump**.
-- A process can install a signal handler to try recovery or logging, but usually, it indicates a serious programming error.
----
-
 ## 10. Describe the behaviour of a process when it receives a SIGSEGV signal?
 
 - `SIGSEGV` signals a **segmentation fault** — invalid memory access.
