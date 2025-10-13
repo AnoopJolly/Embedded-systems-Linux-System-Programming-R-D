@@ -109,3 +109,227 @@ int main() {
 - `SIGSEGV` indicates a **segmentation fault** (illegal memory access).
 - By default, the process **terminates and produces a core dump**.
 - A process can install a signal handler to try recovery or logging, but usually, it indicates a serious programming error.
+---
+
+## 10. Describe the behaviour of a process when it receives a SIGSEGV signal?
+
+- `SIGSEGV` signals a **segmentation fault** — invalid memory access.
+- Default action: process **terminates** and generates a **core dump**.
+- Indicates serious program errors like accessing unallocated memory.
+- A process can install a handler to attempt recovery or cleanup.
+
+---
+
+## 11. What is the role of the sigwait() function in signal handling?
+
+- `sigwait()` **blocks the caller** until one of the specified signals is pending.
+- Used to **synchronously wait** for signals in multi-threaded programs.
+- Helps avoid asynchronous signal handlers by letting threads explicitly handle signals.
+
+---
+
+## 12. Explain the concept of signal correlation in a distributed environment?
+
+- **Signal correlation** is matching signals/events across multiple systems or nodes.
+- Helps in debugging and tracing distributed processes by associating related signals.
+- Requires mechanisms to **timestamp and identify** signals consistently across systems.
+
+---
+
+## 13. Explain how a process handles a signal while it is in the ready state?
+
+- When ready, the process is eligible to run.
+- If a signal arrives, it is **marked pending**.
+- When scheduled to run, before user code executes, the **signal handler runs**.
+- The process resumes normal execution after the handler.
+
+---
+
+## 14. What is the role of the sigqueue() function in signal handling?
+
+- `sigqueue()` sends a signal **with an accompanying value** (`sigval`) to a process.
+- Supports **real-time signals** with extra data.
+- Allows sending signals **with more information** than `kill()`.
+
+---
+
+## 15. Describe the interaction between signals and IPC mechanisms in Unix-like systems?
+
+- Signals notify processes asynchronously.
+- IPC (pipes, message queues, shared memory) transfers data synchronously.
+- Signals often used to **notify about IPC events** (e.g., message arrival).
+- Some IPC mechanisms (like message queues) can **generate signals**.
+
+---
+
+## 16. Explain how a process can determine the priority of a received signal?
+
+- Real-time signals (from `SIGRTMIN` to `SIGRTMAX`) have **priorities**.
+- The kernel delivers **higher priority real-time signals first**.
+- Normal signals have fixed standard priorities (usually lower).
+- Processes cannot dynamically check signal priority but can design around this ordering.
+
+---
+
+## 17. What is the role of the sigaltstack() function in signal handling?
+
+- `sigaltstack()` sets up an **alternate signal stack**.
+- Useful to **handle signals on a separate stack** to avoid stack overflow.
+- Important for handling signals like `SIGSEGV` when the normal stack is corrupted.
+
+---
+
+## 18. Explain how a process can determine whether a signal was sent by the kernel or another process?
+
+- Using `siginfo_t` in signal handlers (with `SA_SIGINFO` flag).
+- `siginfo_t` contains `si_code`:
+  - Positive value means signal sent by kernel.
+  - `SI_USER` means signal sent by another process.
+- Enables differentiated handling based on signal origin.
+
+---
+
+## 19. Describe the interaction between signals and system calls in Unix-like systems?
+
+- Signals can **interrupt blocking system calls**.
+- Some syscalls return with error `EINTR` if interrupted.
+- `SA_RESTART` flag can automatically restart interrupted syscalls.
+- Careful handling needed to avoid premature syscall termination.
+
+---
+
+## 20. How does a process handle a signal while it is waiting for a semaphore?
+
+- Signal interrupts the waiting state.
+- If the semaphore wait is **interruptible**, it returns early with `EINTR`.
+- The process can handle the signal before retrying or exiting.
+
+---
+
+## 21. Describe the difference between a signal handler and a signal mask?
+
+- **Signal handler:** function executed in response to a signal.
+- **Signal mask:** set of signals blocked (ignored) temporarily.
+- Signal mask controls when handlers can be invoked.
+
+---
+
+## 22. How does a process handle a signal while it is in the zombie state?
+
+- Zombies are **terminated processes waiting for parent to reap them**.
+- They **cannot handle signals** because they are not executing.
+- Signals sent to zombies are either ignored or handled by the parent.
+
+---
+
+## 23. What are the advantages and disadvantages of using signals for interprocess communication?
+
+**Advantages:**
+
+- Simple asynchronous notification.
+- Low overhead for simple event signaling.
+
+**Disadvantages:**
+
+- Limited data can be sent.
+- Signals can be lost or overridden.
+- Difficult to manage reliably in complex scenarios.
+
+---
+
+## 24. Explain how a process handles a signal while it is in a sleep state.
+
+- Sleep can be interrupted by signals.
+- If signal arrives, sleep returns early with `EINTR`.
+- Signal handler executes before the process resumes.
+
+---
+
+## 25. How does a process handle a signal while it is in a critical section?
+
+- Signals are generally **deferred** if blocked by a signal mask.
+- If unblocked, the handler can interrupt critical section.
+- This can cause **race conditions** if shared resources aren’t protected.
+
+---
+
+## 26. What are some challenges associated with signal handling in multi-threaded programs?
+
+- Signals delivered to arbitrary threads (usually one thread).
+- Synchronization issues and race conditions.
+- Complexity in deciding which thread handles which signals.
+- Using `sigwait()` and dedicated threads can help.
+
+---
+
+## 27. What is a race condition? Explain how it might occur in the context of signals?
+
+- Race condition: unexpected behavior due to timing/order of operations.
+- Signals can interrupt processes at any time, leading to shared data corruption.
+- Example: modifying a variable in handler and main code without synchronization.
+
+---
+
+## 28. Discuss how a deadlock situation can be caused or resolved by signal handling?
+
+- Deadlock caused if a signal handler waits for a resource locked by the main code.
+- Resolving requires careful design to avoid signal handlers blocking or re-acquiring locks.
+- Avoid calling blocking functions in handlers.
+
+---
+
+## 29. How can you use signals to force a process to dump core?
+
+- Send `SIGABRT` or `SIGSEGV` signals.
+- The default action of these signals is to terminate and dump core.
+- Example: `kill -SIGABRT <pid>`
+
+---
+
+## 30. What are the implications of using longjmp() and setjmp() in signal handlers?
+
+- Using `longjmp()` to jump out of signal handler can cause stack corruption.
+- May skip cleanup code leading to inconsistent states.
+- Should be used carefully and only if program state is well-managed.
+
+---
+
+## 31. Difference between termination and suspending of a signal
+
+- **Termination signals** (e.g., `SIGKILL`, `SIGTERM`) end process execution.
+- **Suspending signals** (e.g., `SIGSTOP`, `SIGTSTP`) pause process execution.
+- Suspended process can be resumed with `SIGCONT`.
+
+---
+
+## 32. How CPU accesses the device register?
+
+- CPU accesses device registers via **memory-mapped I/O** or **port-mapped I/O**.
+- Registers appear as specific memory addresses or ports.
+- CPU reads/writes those addresses to communicate with hardware.
+
+---
+
+## 33. What is IRQ line?
+
+- IRQ (Interrupt Request) line is a hardware signal line used by devices to request CPU attention.
+- Each device typically assigned a unique IRQ number.
+
+---
+
+## 34. How do you find out unique value for each IRQ line?
+
+- IRQ numbers are defined by hardware/BIOS and visible in system files (e.g., `/proc/interrupts` in Linux).
+- Assigned by system during boot or device initialization.
+
+---
+
+## 35. When does an interrupt occur?
+
+- Interrupt occurs when hardware or software needs immediate CPU attention.
+- Hardware devices trigger interrupts to signal events (e.g., I/O completion).
+- Software interrupts happen on system calls or exceptions.
+
+---
+
+
