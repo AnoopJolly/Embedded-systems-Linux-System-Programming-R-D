@@ -122,6 +122,23 @@ int main()
         printf("Exiting normally\n");
         return 0;
 }
+```
+## Simply Blocking
+```c
+#include<stdio.h>
+#include<signal.h>
+#include<unistd.h>
+int main()
+{
+        sigset_t set;
+        sigemptyset(&set);
+        sigaddset(&set,SIGINT);         
+        sigprocmask(SIG_BLOCK,&set,NULL);
+        sleep(5);
+        printf("Exiting normally\n");
+        return 0;
+}
+```
 
 
 
