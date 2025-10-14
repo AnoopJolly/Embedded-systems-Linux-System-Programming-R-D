@@ -20,7 +20,6 @@ int main() {
 
     return 0;
 }
-```
 ## process2_signal_receiver
 ```c
 #include <stdio.h>
