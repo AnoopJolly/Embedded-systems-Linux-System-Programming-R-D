@@ -85,6 +85,45 @@ int main()
         return 0;
 }
 ```
+## 4. Write a program to block the SIGTERM signal using sigprocmask().
+```c
+#include<stdio.h>
+#include<signal.h>
+#include<unistd.h>
+#include<stdlib.h>
+int main()
+{
+        sigset_t new_set,old_set;
+
+        sigemptyset(&new_set);
+        sigaddset(&new_set,SIGTERM);
+
+        if(sigprocmask(SIG_BLOCK, &new_set, &old_set) < 0)
+        {
+                printf("error Sigpromask");
+                exit(EXIT_FAILURE);
+        }
+        printf("SIGTERM is now blocked : PID :%d\n",getpid());
+        printf("Try sending SIGTERM using: kill -15 %d\n",getpid());
+
+        for(int i=10;i>0;i--)
+        {
+                printf("Running... %d seconds left\n",i);
+                sleep(1);
+        }
+        if(sigprocmask(SIG_SETMASK,&old_set,NULL)<0)
+        {
+                printf("ERROR Sigpromask restore");
+                exit(EXIT_FAILURE);
+        }
+        printf("SIGTERM is now unblocked program will exit if it was senf during blocking\n");
+        sleep(5);
+
+        printf("Exiting normally\n");
+        return 0;
+}
+
+
 
 
 
