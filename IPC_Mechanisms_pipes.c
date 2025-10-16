@@ -1,5 +1,5 @@
-//communication between related Process (Parent and child)
-
+##//communication between related Process (Parent and child)
+```c
 #include<stdio.h>
 #include<stdlib.h>
 #include<sys/ipc.h>
@@ -30,4 +30,5 @@ void main()
 		printf("Data recevied from child process: %s\n",rdbuff);
 	}
 }
+```
 
