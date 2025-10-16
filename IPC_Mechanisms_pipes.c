@@ -1,3 +1,5 @@
+//communication between related Process (Parent and child)
+
 #include<stdio.h>
 #include<stdlib.h>
 #include<sys/ipc.h>
