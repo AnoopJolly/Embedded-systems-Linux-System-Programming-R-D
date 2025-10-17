@@ -139,6 +139,30 @@ int main()
         return 0;
 }
 ```
+## 7. Implement a program to handle the SIGSEGV signal (segmentation fault).
+```c
+#include<stdio.h>
+#include<stdlib.h>
+#include<signal.h>
+#include<unistd.h>
+
+void sighandler(int signum)
+{
+        printf("Caught SIGSEGV (signal %d): segment fault detected\n",signum);
+}
+int main()
+{
+        signal(SIGSEGV,sighandler);
+        printf("Signal handler for SIGSEGV registered\n");
+
+        int *ptr=NULL;
+        *ptr=45;
+
+        printf("This line will not print\n");
+        return 0;
+}
+```
+
 
 
 
